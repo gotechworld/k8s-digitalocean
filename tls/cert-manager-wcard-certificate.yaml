@@ -1,0 +1,26 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: gotechworld.io
+  # Cert-Manager will put the resulting Secret in the same Kubernetes namespace as the Certificate.
+  namespace: monitoring
+spec:
+  # Secret name to create, where the private key and certificate should be stored.
+  secretName: gotechworld.io
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  subject:
+    organizations:
+      - gotechworld.io
+
+  # What Issuer to use for getting the certificate.
+  issuerRef:
+    name: letsencrypt-prod
+    kind: Issuer
+    group: cert-manager.io
+  # Common name to be used on the Certificate.
+  commonName: "*.gotechworld.io"
+  # List of DNS subjectAltNames to be set on the Certificate.
+  dnsNames:
+    - "gotechworld.io"
+    - "*.gotechworld.io"
